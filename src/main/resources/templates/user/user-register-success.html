@@ -1,0 +1,22 @@
+<!-- src/main/resources/templates/user/register-success.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 완료</title>
+    <link rel="stylesheet" th:href="@{/css/user.css}">
+</head>
+<body>
+<div class="container">
+    <h1>🎉 회원가입 완료 🎉</h1>
+
+    <div th:if="${successMessage}" class="success-msg" th:text="${successMessage}"></div>
+
+    <div class="center-btn"> <!-- 버튼을 감싸는 div 추가 -->
+        <a th:href="@{/user/login}">
+            <button type="button">로그인하러 가기</button>
+        </a>
+    </div>
+</div>
+</body>
+</html>

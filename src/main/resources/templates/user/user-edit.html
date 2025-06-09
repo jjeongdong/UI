@@ -1,0 +1,25 @@
+<!-- 위치: src/main/resources/templates/user/edit-user.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>사용자 수정</title>
+    <link rel="stylesheet" th:href="@{/css/user-edit.css}">
+</head>
+<body>
+<div class="container">
+    <h1>사용자 수정</h1>
+
+    <form th:action="@{'/user/edit/' + ${user.id}}" method="post">
+        <label for="name">이름</label>
+        <input type="text" id="name" name="name" th:value="${user.name}" required />
+
+        <label for="email">이메일</label>
+        <input type="email" id="email" name="email" th:value="${user.email}" required />
+
+        <button type="submit">수정</button>
+        <a th:href="@{/user}" class="cancel-btn">취소</a>
+    </form>
+</div>
+</body>
+</html>

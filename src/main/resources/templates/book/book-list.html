@@ -1,0 +1,53 @@
+<!-- src/main/resources/templates/book/book-list.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>도서 목록</title>
+    <link rel="stylesheet" th:href="@{/css/book-list.css}" />
+</head>
+<body>
+<div class="container">
+    <!-- 로그인 사용자 정보 -->
+    <!-- 로그인 사용자 정보 및 로그아웃 -->
+    <div class="header">
+        <div class="user-info" th:if="${loggedInUserName != null}">
+            <p><strong th:text="${loggedInUserName}">사용자</strong>님, 환영합니다 👋</p>
+        </div>
+        <div class="header-buttons" th:if="${loggedInUserName != null}">
+            <a th:href="@{/user/profile}"><button type="button">내 정보 조회</button></a>
+            <a th:href="@{/user/logout}"><button type="button">로그아웃</button></a>
+        </div>
+
+        <!-- 세션 없으면 로그인/회원가입 버튼 보여주기 -->
+        <div class="login-register" th:if="${loggedInUserName == null}">
+            <a th:href="@{/user/login}"><button type="button">로그인</button></a>
+            <a th:href="@{/user/register}"><button type="button">회원가입</button></a>
+        </div>
+    </div>
+
+
+    <h1>📚 도서 목록</h1>
+
+    <!-- 도서 목록 테이블 -->
+    <table class="book-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>저자</th>
+            <th>출판일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.id}">1</td>
+            <td th:text="${book.title}">도서 제목</td>
+            <td th:text="${book.author}">저자</td>
+            <td th:text="${book.publishedDate}">2025-01-01</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

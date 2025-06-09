@@ -1,0 +1,28 @@
+<!-- src/main/resources/templates/user/register-user.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link rel="stylesheet" th:href="@{/css/user.css}">
+</head>
+<body>
+<div class="container">
+    <h1>회원가입</h1>
+
+    <form th:action="@{/user/register}" method="post">
+        <label for="name">이름</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="email">이메일</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" name="password" required />
+
+        <button type="submit">가입하기</button>
+        <a th:href="@{/user/login}" class="cancel-btn">로그인</a>
+    </form>
+</div>
+</body>
+</html>

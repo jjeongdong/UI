@@ -1,0 +1,68 @@
+<!-- 위치: src/main/resources/templates/user/user-list.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <link rel="stylesheet" th:href="@{/css/user-list.css}">
+</head>
+<body>
+<div class="container">
+    <h1>사용자 목록</h1>
+
+    <!-- 로그인한 사용자 이름 표시 -->
+    <div th:if="${loggedInUserName != null}" class="welcome-msg">
+        환영합니다, <span th:text="${loggedInUserName}">사용자</span>님!
+    </div>
+
+    <!-- 회원가입/로그인 버튼 영역 -->
+    <div class="nav-buttons">
+        <a th:href="@{/user/register}">
+            <button type="button">회원가입</button>
+        </a>
+    </div>
+    <div class="nav-buttons" th:if="${loggedInUserName == null}">
+        <a th:href="@{/login}">
+            <button type="button">로그인</button>
+        </a>
+    </div>
+
+    <!-- 나중에 로그아웃 버튼도 필요하면 추가 가능 -->
+
+    <!-- 사용자 추가 폼 -->
+    <form th:action="@{/user/add}" method="post">
+        <input type="text" name="name" placeholder="이름" required />
+        <input type="email" name="email" placeholder="이메일" required />
+        <button type="submit">추가</button>
+    </form>
+
+    <!-- 사용자 목록 테이블 -->
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>수정</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">1</td>
+            <td th:text="${user.name}">홍길동</td>
+            <td th:text="${user.email}">hong@example.com</td>
+            <td>
+                <a th:href="@{'/user/edit/' + ${user.id}}">수정</a>
+            </td>
+            <td>
+                <form th:action="@{'/user/delete/' + ${user.id}}" method="post">
+                    <button type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
