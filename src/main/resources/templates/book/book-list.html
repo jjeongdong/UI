@@ -1,53 +1,69 @@
-<!-- src/main/resources/templates/book/book-list.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>도서 목록</title>
-    <link rel="stylesheet" th:href="@{/css/book-list.css}" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/book-style.css}">
 </head>
 <body>
-<div class="container">
-    <!-- 로그인 사용자 정보 -->
-    <!-- 로그인 사용자 정보 및 로그아웃 -->
-    <div class="header">
-        <div class="user-info" th:if="${loggedInUserName != null}">
-            <p><strong th:text="${loggedInUserName}">사용자</strong>님, 환영합니다 👋</p>
-        </div>
-        <div class="header-buttons" th:if="${loggedInUserName != null}">
-            <a th:href="@{/user/profile}"><button type="button">내 정보 조회</button></a>
-            <a th:href="@{/user/logout}"><button type="button">로그아웃</button></a>
-        </div>
 
-        <!-- 세션 없으면 로그인/회원가입 버튼 보여주기 -->
-        <div class="login-register" th:if="${loggedInUserName == null}">
-            <a th:href="@{/user/login}"><button type="button">로그인</button></a>
-            <a th:href="@{/user/register}"><button type="button">회원가입</button></a>
+<header>📚 도서 목록</header>
+
+<div class="container">
+
+    <!-- 사용자 정보 바 -->
+    <div class="user-info-bar">
+        <div class="left">
+            <span th:if="${loginUser}" class="welcome" th:text="'👋 ' + ${loginUserName} + ' 님 환영합니다!'"></span>
+            <a th:if="${loginUser}" class="button" th:href="@{/user/logout}">로그아웃</a>
+            <a th:unless="${loginUser}" class="button" th:href="@{/user/login}">🔐 로그인</a>
         </div>
     </div>
 
+    <!-- 검색 폼 -->
+    <form th:action="@{/book}" method="get" class="search-form">
+        <input type="text" name="name" placeholder="도서명으로 검색" th:value="${name}">
+        <button type="submit">검색</button>
+    </form>
 
-    <h1>📚 도서 목록</h1>
+    <!-- 상단 버튼 -->
+    <div class="top-action">
+        <a class="button" href="/book/add">➕ 도서 등록</a>
+    </div>
 
     <!-- 도서 목록 테이블 -->
-    <table class="book-table">
+    <table>
         <thead>
         <tr>
             <th>ID</th>
-            <th>제목</th>
+            <th>도서명</th>
             <th>저자</th>
+            <th>가격</th>
             <th>출판일</th>
+            <th>수정/삭제</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="book : ${books}">
             <td th:text="${book.id}">1</td>
-            <td th:text="${book.title}">도서 제목</td>
-            <td th:text="${book.author}">저자</td>
-            <td th:text="${book.publishedDate}">2025-01-01</td>
+            <td th:text="${book.name}">자바</td>
+            <td th:text="${book.author}">홍길동</td>
+            <td th:text="${book.price}">10000</td>
+            <td th:text="${#temporals.format(book.published, 'yyyy-MM-dd HH:mm')}">2024-01-01</td>
+            <td>
+                <div class="action-buttons" th:if="${loginUser} == ${book.owner}">
+                    <a class="button" th:href="@{/book/edit/{id}(id=${book.id})}">수정</a>
+                    <form th:action="@{/book/delete/{id}(id=${book.id})}" method="post" onsubmit="return confirm('삭제하시겠습니까?');">
+                        <button class="button delete" type="submit">삭제</button>
+                    </form>
+                </div>
+                <span th:if="${loginUser} != ${book.owner}">권한 없음</span>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
+
 </body>
 </html>

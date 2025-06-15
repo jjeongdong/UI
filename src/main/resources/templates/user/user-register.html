@@ -10,6 +10,9 @@
 <div class="container">
     <h1>회원가입</h1>
 
+    <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+
     <form th:action="@{/user/register}" method="post">
         <label for="name">이름</label>
         <input type="text" id="name" name="name" required />

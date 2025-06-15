@@ -45,7 +45,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("successMessage", "회원가입이 완료되었습니다! 환영합니다 😊");
             return "redirect:/user/user-register-success";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "회원가입 중 오류가 발생했습니다.");
+            redirectAttributes.addFlashAttribute("errorMessage", "이미 사용중인 이메일입니다.");
             return "redirect:/user/register";
         }
     }
@@ -65,8 +65,8 @@ public class UserController {
         try {
             User user = userClient.getUserByEmail(email);
             if (user.getPassword().equals(password)) {
-                session.setAttribute("loggedInUserEmail", user.getEmail());
-                session.setAttribute("loggedInUserName", user.getName());
+                session.setAttribute("loginUser", user.getEmail());
+                session.setAttribute("loginUserName", user.getName());
                 return "redirect:/book";
             } else {
                 model.addAttribute("loginError", "이메일 또는 비밀번호가 틀렸습니다.");
